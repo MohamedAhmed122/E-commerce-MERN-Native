@@ -7,6 +7,7 @@ import connectDB from './config/db.js';
 import cors from 'cors'
 
 import productRoute from './routes/ProductRoute.js'
+import categoryRoute from './routes/CategoryRoute.js'
 
 
 const app = express()
@@ -28,6 +29,7 @@ app.get('/',(req,res)=>{
 
 // Routers
 app.use(`${api}/products`, productRoute)
+app.use(`${api}/category`, categoryRoute)
 
 
 

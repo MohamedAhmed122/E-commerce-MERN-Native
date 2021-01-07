@@ -119,3 +119,13 @@ export const updateProduct = asyncHandler(async (req, res) => {
          throw new Error('product Not Found')
      }
 })
+
+
+// @desc   get the Counts of the products
+//@route   Get /api/products/get/count
+//@Access  private/Admin
+export const getProductCount = asyncHandler (async (req, res) =>{
+    const productCount = await Product.countDocuments((count) => count)
+    res.json({productCount})
+})
+

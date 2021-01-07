@@ -1,6 +1,6 @@
 import User from '../models/userModel.js'
 import asyncHandler from 'express-async-handler'
-import { generateWebToken } from '../utility/GenerateJsonWeTtoken.js';
+import { generateWebToken } from '../utility/GenerateJsonWeToken.js';
 
 
 //@desc    Register User 
@@ -19,7 +19,8 @@ export const registerUser = asyncHandler (async (req, res) =>{
         street,
         zipCode,
         city,
-        country
+        country,
+        isAdmin
     } = req.body;
  
     const userExist = await User.findOne({email})
@@ -38,18 +39,21 @@ export const registerUser = asyncHandler (async (req, res) =>{
        street,
        zipCode,
        city,
-       country
+       country,
+       isAdmin
     })
     if (user){
        res.status(201).json({
           id : user._id,
           email: user.email,
+          password: user.password,
           name: user.name,
           isAdmin: user.isAdmin,
           phone: user.phone,
           apartment: user.apartment,
           street: user.street,
           zipCode: user.zipCode,
+          isAdmin: user.isAdmin,
           city: user.city,
           country: user.country,
           token: generateWebToken(user._id),

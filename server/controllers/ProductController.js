@@ -134,7 +134,7 @@ export const getProductCount = asyncHandler (async (req, res) =>{
 //@route   Get /api/products/get/featured
 //@Access  private/Admin
 export const getProductFeatured = asyncHandler (async (req, res) =>{
-
+    
     const count = req.params.count ? req.params.count : 0 
     const featuredProduct = await Product.find({isFeatured: true}).limit(+count)
     res.json(featuredProduct)

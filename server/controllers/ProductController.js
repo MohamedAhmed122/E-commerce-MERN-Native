@@ -129,3 +129,25 @@ export const getProductCount = asyncHandler (async (req, res) =>{
     res.json({productCount})
 })
 
+
+//@desc   get the the Featured Products
+//@route   Get /api/products/get/featured
+//@Access  private/Admin
+export const getProductFeatured = asyncHandler (async (req, res) =>{
+
+    const count = req.params.count ? req.params.count : 0 
+    const featuredProduct = await Product.find({isFeatured: true}).limit(+count)
+    res.json(featuredProduct)
+})
+
+// @desc   filter products by Category
+//@route   Get /api/products
+//@Access  Public
+export const filterProductByCategory = asyncHandler (async (req, res) =>{
+    let filter ={}
+    if (req.query.categories){
+        filter ={ category : req.query.categories.split(',') }
+    }
+    const products = await Product.find(filter).populate('category')
+    res.json(products)
+})

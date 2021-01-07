@@ -9,6 +9,8 @@ import cors from 'cors'
 import productRoute from './routes/ProductRoute.js'
 import categoryRoute from './routes/CategoryRoute.js'
 
+import { notFound, errorHandler } from './middleware/errorHandler.js'
+
 
 const app = express()
 
@@ -18,11 +20,11 @@ app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
 dotenv.config()
+const api = process.env.API_URL
 
 connectDB()
 
-const api = process.env.API_URL
-
+// test
 app.get('/',(req,res)=>{
     res.send("Hello From Port 5000")
 })
@@ -31,8 +33,11 @@ app.get('/',(req,res)=>{
 app.use(`${api}/products`, productRoute)
 app.use(`${api}/category`, categoryRoute)
 
+// middleware
+app.use(notFound)
+app.use(errorHandler)
 
-
+// Port
 app.listen(5000, ()=>{
     console.log('Hello there', api)
 })

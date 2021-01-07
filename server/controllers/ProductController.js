@@ -57,21 +57,20 @@ export const createProduct = asyncHandler (async (req, res) =>{
 
 
 
-// // @desc    Delete Category
-// // @route   DELETE /api/category/:id
-// // @access  Private/Admin
-// export const deleteCategory = asyncHandler(async (req, res) => {
-//     const category = await Category.findById(req.params.id)
+// @desc    Delete product by Id
+// @route   DELETE /api/product §/:id
+// @access  Private/Admin
+export const deleteProduct= asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id)
  
-//     if(category){
-//        await category.remove()
-//        res.json({message : "category has Been deleted"})
-//     }else{
-//        res.status(404)
-//        res.json({message : "category Not Found"})
-//     }
-  
-// })
+    if(product){
+       await product.remove()
+       res.json({message : "product has Been deleted"})
+    }else{
+       res.status(404)
+       res.json({message : "product Not Found"})
+    }
+})
 
 
 

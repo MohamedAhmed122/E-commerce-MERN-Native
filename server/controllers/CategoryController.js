@@ -57,3 +57,32 @@ export const deleteCategory = asyncHandler(async (req, res) => {
     }
   
 })
+
+
+
+
+// @desc    Update category
+// @route   PUT /api/category/:id
+// @access  Private/Admin
+export const updateCategory = asyncHandler(async (req, res) => {
+    const {
+        name,
+        color,
+        icon
+     } = req.body
+
+     const category = await Category.findById(req.params.id)
+     if(category){
+        category.name = name
+        category.color = color
+        category.icon = icon
+
+        const updatedCategory = await category.save();
+  
+        res.json(updatedCategory) 
+
+     }else{
+         res.status(404)
+         throw new Error('category Not Found')
+     }
+})

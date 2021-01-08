@@ -56,3 +56,43 @@ export const getOrderById = asyncHandler (async (req, res) =>{
         throw new Error('order Not Found')
     }
 })
+
+
+// @desc    Delete Order by Id
+// @route   DELETE /api/Order §/:id
+// @access  Private/Admin
+export const deleteOrder= asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
+ 
+    if(order){
+       await order.remove()
+       res.json({message : "order has Been deleted"})
+    }else{
+       res.status(404)
+       res.json({message : "order Not Found"})
+    }
+})
+
+
+// @desc    Update Order status
+// @route   PUT /api/Order/:id
+// @access  Private/Admin
+export const updateOrderStatus = asyncHandler(async (req, res) => {
+    const {
+      status
+     } = req.body
+
+     const order = await Order.findById(req.params.id)
+     if(order){
+       
+        order.status = status
+
+        const updatedOrder = await order.save();
+  
+        res.json(updatedOrder) 
+
+     }else{
+         res.status(404)
+         throw new Error('Order Not Found')
+     }
+})

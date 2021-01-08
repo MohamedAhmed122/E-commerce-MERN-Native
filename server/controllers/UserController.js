@@ -6,9 +6,7 @@ import { generateWebToken } from '../utility/GenerateJsonWeToken.js';
 //@desc    Register User 
 //@route   Post /api/user
 //@Access  Public
-// @desc   register new user 
-//@route   GET /api/users
-//@Access  Public
+
 export const registerUser = asyncHandler (async (req, res) =>{
     const {
         name,
@@ -64,3 +62,28 @@ export const registerUser = asyncHandler (async (req, res) =>{
        throw new Error('Incorrect Data')
     }
  })
+
+
+// @desc   Fetch all the users 
+//@route   Get /api/users
+//@Access  Private/Admin
+export const getUsers = asyncHandler (async (req, res) =>{
+   const user = await User.find({}).select('-password')
+   res.json(user)
+})
+
+
+
+
+//@desc   Fetch a single user by its id
+//@route   Get /api/user/:id
+//@Access  Private/Admin
+export const getUserById = asyncHandler (async (req, res) =>{
+   const user = await User.findById(req.params.id).select('-password')
+   if(user){     
+       res.json(user) 
+   }else{
+       res.status(404)
+       throw new Error('user Not Found')
+   }
+})

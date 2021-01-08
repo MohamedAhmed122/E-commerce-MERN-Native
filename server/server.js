@@ -9,6 +9,7 @@ import cors from 'cors'
 import productRoute from './routes/ProductRoute.js'
 import categoryRoute from './routes/CategoryRoute.js'
 import userRoute from './routes/UserRoute.js'
+import orderRoute from './routes/OrderRoute.js'
 
 import { notFound, errorHandler } from './middleware/errorHandler.js'
 
@@ -33,6 +34,7 @@ app.get('/',(req,res)=>{
 // Routers
 app.use(`${api}/products`, productRoute)
 app.use(`${api}/category`, categoryRoute)
+app.use(`${api}/orders`, orderRoute)
 app.use(`${api}/users`, userRoute)
 
 // middleware

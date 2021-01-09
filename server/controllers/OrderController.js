@@ -5,8 +5,8 @@ import OrderItem from '../models/orderItemModel.js'
 //@desc    Create new  Order 
 //@route   Post /api/orders
 //@Access  Private
-export const createOrder = asyncHandler (async (req, res) =>{
-
+export const createOrder = asyncHandler (async (req, res) =>{  
+  
     const newOrderItem =Promise.all( req.body.orderItems.map(async orderItem=>{
         let newOrderItem = new OrderItem({
             quantity: orderItem.quantity,
@@ -16,6 +16,15 @@ export const createOrder = asyncHandler (async (req, res) =>{
         return newOrderItem._id
     }))
     const orderItemsResolved = await newOrderItem
+
+    const totalPrices = await Promise.all(orderItemsIdsResolved.map(async (orderItemId)=>{
+        const orderItem = await OrderItem.findById(orderItemId).populate('product', 'price');
+        const totalPrice = orderItem.product.price * orderItem.quantity;
+        return totalPrice
+    }))
+
+    const totalPrice = totalPrices.reduce((a,b) => a +b , 0);
+
     let order = await Order({
         orderItems: orderItemsResolved,
         shippingAddress1: req.body.shippingAddress1,
@@ -25,7 +34,7 @@ export const createOrder = asyncHandler (async (req, res) =>{
         zipCode: req.body.zipCode,
         phone: req.body.phone,
         status: req.body.status,
-        totalPrice: req.body.totalPrice,
+        totalPrice: totalPrice,
         user: req.body.user,
         
     })

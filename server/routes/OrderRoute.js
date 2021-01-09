@@ -7,7 +7,9 @@ import {
     getOrders,
     updateOrderStatus,
     deleteOrder,
-    deleteOrderItem
+    deleteOrderItem,
+    getTotalSale,
+    getOrderCount
  } from '../controllers/OrderController.js'
 
 const router = express.Router()
@@ -19,6 +21,8 @@ router.route('/').post(protect, admin, createOrder)
 router.route('/:id').delete(protect, admin, deleteOrder)
 router.route('/:id').delete(protect, admin, deleteOrderItem)
 router.route('/:id').put(protect, admin, updateOrderStatus)
+router.route('/totalsales').get(protect, admin, getTotalSale)
+router.route('/get/count').get(protect, admin, getOrderCount)
 
    
 

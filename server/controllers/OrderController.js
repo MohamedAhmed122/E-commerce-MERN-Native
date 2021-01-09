@@ -124,3 +124,29 @@ export const updateOrderStatus = asyncHandler(async (req, res) => {
          throw new Error('Order Not Found')
      }
 })
+
+
+// @desc   Get the Total Sales
+//@route   Get /api/orders/totalsales
+//@Access  Private/Admin
+export const getTotalSale = asyncHandler (async (req, res) =>{
+   
+    const totalSales= await Order.aggregate([
+        { $group: { _id: null , totalSale : { $sum : '$totalPrice'}}}
+    ])
+
+    if(!totalSales) {
+        return res.status(400).send('The order sales cannot be generated')
+    }
+
+    res.send({totalSale: totalSales.pop().totalSale})
+})
+
+
+// @desc   get the Counts of the order
+//@route   Get /api/orders/get/count
+//@Access  private/Admin
+export const getOrderCount = asyncHandler (async (req, res) =>{
+    const orderCount = await Order.countDocuments((count) => count)
+    res.json({orderCount})
+})

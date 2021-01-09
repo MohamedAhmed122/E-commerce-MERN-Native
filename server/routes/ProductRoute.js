@@ -6,7 +6,6 @@ import multer from 'multer'
 import {
     getProducts, 
     getProductById, 
-    createProduct,
     updateProduct,
     deleteProduct,
     getProductCount,
@@ -22,14 +21,11 @@ const router = express.Router()
 
 router.route('/').get(filterProductByCategory)
 router.route('/').get(getProducts)
-// router.route('/').post(createProduct)
 router.route('/:id').get(getProductById)
 router.route('/:id').put(protect, admin, updateProduct)
 router.route('/:id').delete(protect, admin, deleteProduct)
 router.route('/get/count').get(getProductCount) 
 router.route('/get/featured/:count').get(getProductFeatured) 
-
-
 
 
 
@@ -75,5 +71,7 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) =>{
 
     res.send(product);
 })
+
+
 
 export default router

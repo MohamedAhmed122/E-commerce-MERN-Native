@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import Category from '../models/categoryModel.js'
 import Product from '../models/productsModel.js'
+import multer from 'multer'
 
 // @desc   Fetch all products 
 //@route   Get /api/products
@@ -27,19 +28,40 @@ export const getProductById = asyncHandler (async (req, res) =>{
 })
 
 
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '/public/uploads')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-dosdos-' + uniqueSuffix)
+    }
+  })
+  
+  const uploadOptions = multer({ storage: storage })
+  
+
+
 //@desc    Create new  Product 
 //@route   Post /api/product
 //@Access  Private
-export const createProduct = asyncHandler (async (req, res) =>{
+export const createProduct = asyncHandler (uploadOptions.single('image') , async (req, res) =>{
 
     const category = await await Category.findById(req.body.category)
     if (!category) return res.status(400).send("Invalid Category")
+
+    const file = req.file;
+    if(!file) return res.status(400).send('No image in the request')
+
+    const fileName = file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
 
     let product = await Product({
         name: req.body.name,
         description: req.body.description,
         detail: req.body.detail,
-        image: req.body.image,
+        image: `${basePath}${fileName}`,// "http://localhost:3000/public/upload/image-lablablab"
         // images: req.body.images,
         brand: req.body.brand,
         price: req.body.price,
@@ -151,3 +173,5 @@ export const filterProductByCategory = asyncHandler (async (req, res) =>{
     const products = await Product.find(filter).populate('category')
     res.json(products)
 })
+
+

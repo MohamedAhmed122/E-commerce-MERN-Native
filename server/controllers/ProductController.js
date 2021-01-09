@@ -29,22 +29,37 @@ export const getProductById = asyncHandler (async (req, res) =>{
 
 
 
+const FILE_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg'
+}
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, '/public/uploads')
+        const isValid = FILE_TYPE_MAP[file.mimetype];
+        let uploadError = new Error('invalid image type');
+
+        if(isValid) {
+            uploadError = null
+        }
+      cb(uploadError, 'public/uploads')
     },
     filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null, file.fieldname + '-dosdos-' + uniqueSuffix)
+        
+      const fileName = file.originalname.split(' ').join('-');
+      const extension = FILE_TYPE_MAP[file.mimetype];
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
     }
   })
   
-  const uploadOptions = multer({ storage: storage })
+const uploadOptions = multer({ storage: storage })
+
   
 
 
 //@desc    Create new  Product 
-//@route   Post /api/product
+//@route   Post /api/products
 //@Access  Private
 export const createProduct = asyncHandler (uploadOptions.single('image') , async (req, res) =>{
 

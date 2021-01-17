@@ -27,17 +27,26 @@ router.route('/:id').delete(protect, admin, deleteProduct)
 router.route('/get/count').get(getProductCount) 
 router.route('/get/featured/:count').get(getProductFeatured) 
 
-
+const FILE_TYPE ={
+  'image/png' : 'png',
+  'image/jpeg' : 'jpeg',
+  'image/jpg' : 'jpg'
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/uploads')
+      const isValidate = FILE_TYPE[file.mimetype]
+      let uploadError = new Error('Invalid Image Type')
+      if(isValidate){
+        uploadError =null
+      }
+      cb(uploadError, 'public/uploads')
     },
     filename: function (req, file, cb) {
         
       const fileName = file.originalname.split(' ').join('-');
-    
-      cb(null, `${fileName}-${Date.now()}`)
+      const extension = FILE_TYPE[file.mimetype]
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
     }
   })
   
@@ -47,6 +56,8 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) =>{
     const category = await Category.findById(req.body.category);
     if(!category) return res.status(400).send('Invalid Category')
 
+    const file = req.file;
+    if(!file) return res.status(400).send('Invalid Image')
 
     const fileName = req.file.filename
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;

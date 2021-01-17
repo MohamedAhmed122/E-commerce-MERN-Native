@@ -5,6 +5,7 @@ import { background } from '../config/colors';
 import ProductCard from '../Components/ProductCard/ProductCard';
 import AppInput from '../Common/AppInput/AppInput';
 import ProductSearchScreen from './ProductSearchScreen'
+import Banner from '../Components/Banner/Banner';
 
 const data = require('../../assets/data/products.json')
 
@@ -47,6 +48,7 @@ export default function ProductScreen() {
             {focus === true?
                 <ProductSearchScreen items={searchProduct} />:
                 <ScrollView>
+                    <Banner />
                     <View style={styles.container}>
                     {
                         products.map(product =>(

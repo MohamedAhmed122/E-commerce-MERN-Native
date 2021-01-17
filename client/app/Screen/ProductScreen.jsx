@@ -4,31 +4,60 @@ import Constants from "expo-constants";
 import { background } from '../config/colors';
 import ProductCard from '../Components/ProductCard/ProductCard';
 import AppInput from '../Common/AppInput/AppInput';
+import ProductSearchScreen from './ProductSearchScreen'
 
 const data = require('../../assets/data/products.json')
 
 
 export default function ProductScreen() {
     const [products, setProducts] = useState([])
+    const [filterProduct, setFilterProduct] = useState([])
+    const [text, setText] = useState('')
+    const [focus, setFocus ] = useState(false)
    
     useEffect(()=>{
         setProducts(data)
+        setFilterProduct(data)
+    
         return(()=>{
             setProducts([])
         })
     })
 
+    let searchProduct ;
+     searchProduct  = products.filter((i) => i.name.toLowerCase().includes(text.toLowerCase()))
+
+    const handleClose = () =>{
+        setFocus(false)
+        setText(' ')
+    }
+
     return (
-        <ScrollView style={styles.screen}>
-            <AppInput placeholder='Search products' />
-            <View style={styles.container}>
-            {
-                products.map(product =>(
-                    <ProductCard key={product.name} item={product}/>
-                ))
+        <View style={styles.screen}>
+            <AppInput 
+                icon='search' 
+                endIcon 
+                placeholder='Search products'
+                onBlur={()=> setFocus(true)}
+                onFocus ={() =>setFocus(true)}
+                onIconPress={handleClose}
+                onChangeText={(text)=>setText(text)}
+            
+            />
+            {focus === true?
+                <ProductSearchScreen items={searchProduct} />:
+                <ScrollView>
+                    <View style={styles.container}>
+                    {
+                        products.map(product =>(
+                            <ProductCard key={product.id} item={product}/>
+                        ))
+                    }
+                    </View>
+
+                </ScrollView>
             }
-            </View>
-        </ScrollView>
+        </View>
     )
 }
 

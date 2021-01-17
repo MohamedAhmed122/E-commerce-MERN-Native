@@ -1,15 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ProductScreen from './app/Screen/ProductScreen';
+import PrimaryButton from './app/Components/AppButtons/PrimaryButton';
+
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start !</Text>
-    //   <StatusBar style="auto" />
-    // </View>
-    <ProductScreen />
+    <View style={styles.container}>
+
+      <Text>Hello</Text>
+     <PrimaryButton inverted title='Hello' />
+      <StatusBar style="auto" />
+    </View>
+
   );
 }
 

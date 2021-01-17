@@ -128,3 +128,39 @@ export const filterProductByCategory = asyncHandler (async (req, res) =>{
 })
 
 
+
+
+// @desc   Create New Product
+//@route   POST /api/products
+//@Access  Private/Admin
+
+export const CreateNewProduct = asyncHandler ( async (req, res) =>{
+    const category = await Category.findById(req.body.category);
+    if(!category) return res.status(400).send('Invalid Category')
+
+    const file = req.file;
+    if(!file) return res.status(400).send('Invalid Image')
+
+    const fileName = req.file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+    let product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        richDescription: req.body.richDescription,
+        image: `${basePath}${fileName}`,// "http://localhost:3000/public/upload/image-2323232"
+        brand: req.body.brand,
+        price: req.body.price,
+        category: req.body.category,
+        countInStock: req.body.countInStock,
+        rating: req.body.rating,
+        numReviews: req.body.numReviews,
+        isFeatured: req.body.isFeatured,
+    })
+
+    product = await product.save();
+
+    if(!product) 
+    return res.status(500).send('The product cannot be created')
+
+    res.send(product);
+})

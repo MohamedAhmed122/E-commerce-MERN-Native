@@ -1,5 +1,6 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
+import AppSeparator from '../Common/AppSeparator/AppSeparator';
 import ListItem from '../Components/List/ListItem'
 
 
@@ -11,8 +12,10 @@ export default function ProductSearchScreen({items}) {
            <FlatList 
                 data={items}
                 keyExtractor={(items)=> items.id}
+                ItemSeparatorComponent={()=> <AppSeparator />}
                 renderItem={({item})=> (
                     <ListItem
+                  
                         source={item.image || imageHolder}
                         title={item.name}
                         description={item.description}ch

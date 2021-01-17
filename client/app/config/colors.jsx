@@ -14,3 +14,5 @@ export const white ='#ffff'
 export const dark ='#0000'
 
 export const lightGray ='#eaeaea'
+
+export const gray = '#6e6969'

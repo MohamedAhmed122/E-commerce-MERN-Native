@@ -12,3 +12,5 @@ export const orange ='#D95E32';
 export const white ='#ffff'
 
 export const dark ='#0000'
+
+export const lightGray ='#eaeaea'

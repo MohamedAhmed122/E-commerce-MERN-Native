@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
+import path from 'path'
 import colors from 'colors'
 import connectDB from './config/db.js';
 import cors from 'cors'
@@ -38,8 +39,11 @@ app.use(`${api}/orders`, orderRoute)
 app.use(`${api}/users`, userRoute)
 
 // middleware
-app.use(notFound)
+const __dirname = path.resolve()
+
+// app.use(notFound)
 app.use(errorHandler)
+app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 
 // Port
 app.listen(5000, ()=>{

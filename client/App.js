@@ -1,19 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import PrimaryButton from './app/Common/AppButtons/PrimaryButton';
-import AppText from './app/Common/AppText/AppText';
-import ProductCard from './app/Components/ProductCard/ProductCard';
-import ProductScreen from './app/Screen/ProductScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import TabNavigation from './app/Navigation/TabNavigation';
+
 
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <StatusBar style="auto" />
-    // </View>
-    // <ProductScreen />
-    <ProductScreen />
+      <NavigationContainer>
+        <TabNavigation />
+      </NavigationContainer>
 
   );
 }

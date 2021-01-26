@@ -6,19 +6,23 @@ import ProductCard from '../Components/ProductCard/ProductCard';
 import AppInput from '../Common/AppInput/AppInput';
 import ProductSearchScreen from './ProductSearchScreen'
 import Banner from '../Components/Banner/Banner';
+import CategoryList from '../Components/CategoryList/CategoryList';
 
 const data = require('../../assets/data/products.json')
-
+const categories = require('../../assets/data/categories.json')
 
 export default function ProductScreen() {
     const [products, setProducts] = useState([])
     const [filterProduct, setFilterProduct] = useState([])
     const [text, setText] = useState('')
     const [focus, setFocus ] = useState(false)
+    const [category, setCategory] = useState([])
+    const [active, setActive] = useState(-1)
    
     useEffect(()=>{
         setProducts(data)
         setFilterProduct(data)
+        setCategory(categories)
     
         return(()=>{
             setProducts([])
@@ -49,6 +53,7 @@ export default function ProductScreen() {
                 <ProductSearchScreen items={searchProduct} />:
                 <ScrollView>
                     <Banner />
+                    <CategoryList categories={category} />
                     <View style={styles.container}>
                     {
                         products.map(product =>(

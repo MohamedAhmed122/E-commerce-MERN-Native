@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   imageBanner: {
     height: width / 2,
     width: width - 40,
-    borderRadius: 10,
     marginHorizontal: 20,
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet,ScrollView, Text, View } from 'react-native'
 import AppSeparator from '../Common/AppSeparator/AppSeparator';
 import ListItem from '../Components/List/ListItem'
 
@@ -8,7 +8,7 @@ const imageHolder ='https://assets.pbimgs.com/pbimgs/ab/images/dp/wcm/202036/000
 export default function ProductSearchScreen({items}) {
     console.log(items);
     return (
-        <View>
+        <ScrollView>
            <FlatList 
                 data={items}
                 keyExtractor={(items)=> items.id}
@@ -23,7 +23,7 @@ export default function ProductSearchScreen({items}) {
                 )}
             />
            
-        </View>
+        </ScrollView>
     )
 }
 
